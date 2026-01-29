@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Delete 33.8 GiB of unneeded data
+        run: |
+          sudo rm -rf /usr/local/lib/android      # 11.9 GiB
+          sudo rm -rf /usr/local/.ghcup           # 6.3 GiB
+          sudo rm -rf /usr/local/share/powershell # 1.2 GiB
+          sudo rm -rf /usr/local/share/chromium   # 618 MiB
+          sudo rm -rf /usr/local/julia1.12.2      # 1.0 GiB
+          sudo rm -rf /usr/share/dotnet           # 4.0 GiB
+          sudo rm -rf /usr/share/swift            # 3.1 GiB
+          sudo rm -rf /opt/hostedtoolcache        # 5.7 GiB
+
+      - name: Generate fixtures
+        run: ./generate.sh
+
+      - name: Upload fixtures
+        uses: actions/upload-artifact@v4
+        with:
+          name: fixtures-${{ github.sha }}
+          path: fixtures.tar.zst
+          retention-days: 7
