@@ -32,7 +32,7 @@ jobs:
       - name: Get commit hashes
         id: commits
         run: |
-          . sig/conformance/commits.env
+          . commits.env
           echo "test_vectors=$TEST_VECTORS_COMMIT" >> $GITHUB_OUTPUT
           echo "solfuzz_agave=$SOLFUZZ_AGAVE_COMMIT" >> $GITHUB_OUTPUT
 

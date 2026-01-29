@@ -16,6 +16,7 @@ elif [[ $INSTALL_SYSTEM_DEPS != '' ]]; then
 fi
 
 git clone --depth=1 https://github.com/Syndica/sig.git sig
+cat commits.env >> sig/conformance/commits.env
 pushd sig/conformance
 scripts/setup-env.sh get-solfuzz-agave
 scripts/setup-env.sh get-test-vectors
